@@ -44,7 +44,7 @@ pip install "isaacsim[all,extscache]==4.5.0" --extra-index-url https://pypi.nvid
 
 ### Training
 
-#### Operator Environment (DeepONet)
+#### Operator Environment
 
 Train with DeepONet architecture on operator environment:
 
