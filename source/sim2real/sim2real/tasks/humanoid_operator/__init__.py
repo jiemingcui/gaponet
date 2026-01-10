@@ -36,16 +36,6 @@ gym.register(
 )
 
 gym.register(
-    id="Isaac-Humanoid-Operator-Delta-Action-Hand",
-    entry_point=f"{__name__}.humanoid_operator_hand_env:HumanoidOperatorHandEnv",
-    disable_env_checker=True,
-    kwargs={
-        "env_cfg_entry_point": f"{__name__}.humanoid_operator_env_cfg:HumanoidOperatorEnvCfg",
-        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_operator_cfg:HumanoidOperatorRunnerCfg",
-    },
-)
-
-gym.register(
     id="Isaac-Humanoid-Operator-Delta-Action-Vanilla",
     entry_point=f"{__name__}.humanoid_operator_env:HumanoidOperatorEnv",
     disable_env_checker=True,
