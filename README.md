@@ -2,20 +2,9 @@
 
 A reinforcement learning framework for training humanoid robot controllers using Isaac Lab, featuring DeepONet, Transformer, and MLP architectures for sim-to-real transfer.
 
-This project works as a standalone Isaac Lab extension, similar to [humanoid_amp](https://github.com/linden713/humanoid_amp). No symbolic links or special setup required!
-
 ## Overview
 
 GapONet implements a comprehensive training and evaluation framework for humanoid robot control with a focus on sim-to-real transfer. It supports multiple neural network architectures (DeepONet, Transformer, MLP) and provides environments for training and testing on various humanoid robot platforms.
-
-### Key Features
-
-- **Multiple Network Architectures**: DeepONet, Transformer, and MLP-based actor-critic networks
-- **Sim-to-Real Transfer**: Environments designed for training in simulation and deployment on real robots
-- **Multi-Robot Support**: Support for Unitree H1 and Fourior humanoid robots
-- **Motion Data Integration**: Loads and processes motion data from AMASS dataset and custom motion files
-- **Payload Adaptation**: Handles variable payload masses for robust control
-- **Comprehensive Evaluation**: Metrics and visualization tools for performance analysis
 
 ## Prerequisites
 
@@ -24,15 +13,13 @@ GapONet implements a comprehensive training and evaluation framework for humanoi
 - **CUDA-capable GPU** with appropriate drivers
 - **Isaac Lab** (see [Isaac Lab documentation](https://isaac-sim.github.io/IsaacLab/) for installation)
 
-Make sure you have Isaac Sim and Isaac Lab installed via pip before proceeding.
-
 ## Assets
 
 Before installation, download the required assets:
 
 1. **Robot Assets**: Download [sim2real_assets](https://drive.google.com/drive/folders/1Us5FTDRO_whoxDDO_Nqa8KmbWCFDNyVX?usp=sharing) and place the corresponding files in `gaponet/source/sim2real_assets/`.
 
-2. **Test Data**: A [test data](https://drive.google.com/file/d/12h3iOTuttKmxflI-SP5UEpgINQq06mKp/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data.
+2. **Test Data**: A [test data](https://drive.google.com/file/d/12h3iOTuttKmxflI-SP5UEpgINQq06mKp/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data. Place the corresponding files in `gaponet/source/sim2real/sim2real/motions/motion_amass/edited_27dof/`.
 
 ## Installation
 
@@ -201,4 +188,3 @@ Results are saved as CSV files and visualization plots.
 - Built on [Isaac Lab](https://isaac-sim.github.io/IsaacLab/)
 - Uses [rsl_rl](https://github.com/leggedrobotics/rsl_rl) for RL algorithms
 - Motion data from [AMASS](https://amass.is.tue.mpg.de/)
-- Inspired by [humanoid_amp](https://github.com/linden713/humanoid_amp)
