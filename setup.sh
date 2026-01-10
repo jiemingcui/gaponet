@@ -102,6 +102,10 @@ else
         toml>=0.10.2
 fi
 
+# Explicitly install pytorch-kinematics to ensure it's available
+echo -e "${GREEN}[INFO] Installing pytorch-kinematics...${NC}"
+pip install pytorch-kinematics>=0.0.1 || echo -e "${YELLOW}[WARNING] Failed to install pytorch-kinematics. You may need to install it manually.${NC}"
+
 # Install optional dependencies (uncomment if needed)
 echo -e "${GREEN}[INFO] Installing optional dependencies...${NC}"
 pip install \

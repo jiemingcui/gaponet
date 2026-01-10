@@ -47,24 +47,13 @@ cd gaponet
 
 # Run the setup script (creates 'gapo' environment by default)
 ./setup.sh
+
+# Install IsaacSim
+pip install "isaacsim[all,extscache]==4.5.0" --extra-index-url https://pypi.nvidia.com
+
+# Install isaaclab
+./isaaclab.sh --install
 ```
-
-The setup script will:
-- Create a conda environment
-- Install all dependencies
-- Install the package in editable mode
-
-Sync correct codebase into your IsaacLab setting:
-
-```bash
-# Set ISAACLAB_PATH environment variable first
-export ISAACLAB_PATH=/path/to/isaaclab
-
-# Sync the scripts
-./sync_rsl_scripts.sh
-```
-
-**Note**: The sync script copies training scripts from Isaac Lab. If you prefer, you can use Isaac Lab's training scripts directly without syncing.
 
 ## Usage
 
@@ -74,28 +63,10 @@ export ISAACLAB_PATH=/path/to/isaaclab
 
 Train with DeepONet architecture on operator environment:
 
-**11-dimensional trunk (with payload):**
 ```bash
 python scripts/rsl_rl/train.py --task Isaac-Humanoid-Operator-Delta-Action \
   --num_envs=4080 --max_iterations 100000 --experiment_name Sim2Real \
   --letter amass --run_name delta_action_mlp_payload --device cuda env.mode=train --headless
-```
-
-**10-dimensional trunk (without payload):**
-```bash
-python scripts/rsl_rl/train.py --task Isaac-Humanoid-Operator-Delta-Action \
-  --num_envs=4080 --max_iterations 100000 --experiment_name Sim2Real \
-  --letter amass --run_name delta_action_mlp --device cuda env.mode=train --headless
-```
-
-**Note**: If you haven't synced the scripts, you can use Isaac Lab's training scripts directly:
-```bash
-# Using Isaac Lab's isaaclab.sh
-./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/train.py \
-  --task Isaac-Humanoid-Operator-Delta-Action \
-  --num_envs=4080 --max_iterations 100000 \
-  --experiment_name Sim2Real --letter amass \
-  --run_name delta_action_mlp_payload --device cuda env.mode=train --headless
 ```
 
 ### Evaluation/Playback
@@ -107,25 +78,17 @@ python scripts/rsl_rl/play.py --task Isaac-Humanoid-Operator-Delta-Action \
   --checkpoint your_model.pt --num_envs 20 --headless
 ```
 
-Or using Isaac Lab's script directly:
-```bash
-./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/play.py \
-  --task Isaac-Humanoid-Operator-Delta-Action \
-  --checkpoint your_model.pt --num_envs 20 --headless
-```
-
-
 ## Adding a New Robot
 
 To add support for a new robot, follow these steps:
 
 1. **Create a new task directory** in `source/sim2real/sim2real/tasks/`:
-   - Create a new folder (e.g., `humanoid_your_robot/`)
+   - Create a new folder (e.g., `humanoid_your_task/`)
    - Copy and modify files from `humanoid_operator/` or `humanoid_amass/` as reference
    - Implement your environment class (e.g., `your_robot_env.py`)
    - Create environment configuration (e.g., `your_robot_env_cfg.py`)
 
-2. **Register the task** in `source/sim2real/sim2real/tasks/your_robot/__init__.py`:
+2. **Register the task** in `source/sim2real/sim2real/tasks/humanoid_your_task/__init__.py`:
    - Use `gym.register()` to register your environment
    - Reference existing registrations in `humanoid_operator/__init__.py`
 
@@ -227,7 +190,7 @@ Motion data should be provided in NumPy `.npz` format with the following keys:
 
 The framework computes several metrics during evaluation:
 - **MPJAE**: Mean Per-Joint Angle Error (in degrees)
-- **Large Gap Ratio**: Ratio of gaps >= 0.5 rad
+- **Large Gap Ratio**: Ratio of gaps >= *robot_threshold* rad
 - **Gap IQR**: Interquartile range of gaps
 - **Gap Range**: Range of gaps
 - **Upper Body Joint Area**: Area under error curve

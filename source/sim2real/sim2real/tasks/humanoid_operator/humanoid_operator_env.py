@@ -22,8 +22,7 @@ from isaaclab.utils.math import quat_rotate
 import pytorch_kinematics as pk
 from copy import deepcopy
 
-# from .humanoid_operator_env_cfg import HumanoidOperatorEnvCfg
-from .humanoid_operator_env_cfg_fourior import HumanoidOperatorEnvCfg
+from .humanoid_operator_env_cfg import HumanoidOperatorEnvCfg
 from .motions import MotionLoaderMotor
 from .operator_helper import get_sensor_positions, set_masses, reset_masses
 

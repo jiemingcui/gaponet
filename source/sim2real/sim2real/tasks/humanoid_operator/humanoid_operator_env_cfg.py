@@ -9,7 +9,6 @@ import os
 from dataclasses import MISSING
 
 from sim2real_assets import H1_2_CFG_WITH_HAND_FIX, H1_2_WITH_HAND_FIX_URDF_PATH, H1_2_CFG_WITH_HAND_FIX_PAYLOAD, H1_2_WITH_HAND_FIX_PAYLOAD_URDF_PATH # type: ignore
-from sim2real_assets import FOURIOR_CFG_WITH_HAND_FIX, FOURIOR_WITH_HAND_FIX_URDF_PATH, FOURIOR_CFG_WITH_HAND_FIX_PAYLOAD, FOURIOR_WITH_HAND_FIX_PAYLOAD_URDF_PATH # type: ignore
 
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
@@ -91,11 +90,8 @@ class HumanoidOperatorEnvCfg(DirectRLEnvCfg):
     motion_joint = None
     # motion_file = os.path.join(motion_dir, f"motion_perjoint_all/{ROBOT_DICT[robot_name]['motion_dir']}")
     motion_path = os.path.join(motion_dir, f"motion_amass/{ROBOT_DICT[robot_name]['motion_dir']}")
-    train_motion_file = os.path.join(motion_path, "train.npz")
-    # train_motion_file = os.path.join(motion_path, "motor_edited_extend_amass_test_merged_50Hz_full_subset_20.npz")
-    # test_motion_file = os.path.join(motion_path, "motor_edited_extend_amass_test_merged_50Hz_full_subset_bwd_20.npz")
-    # test_motion_file = os.path.join(motion_path, "test_full.npz")
-    test_motion_file = os.path.join(motion_path, "motor_edited_extend_amass_test_merged_50Hz_full_real.npz")
+    train_motion_file = os.path.join(motion_path, "test.npz")
+    test_motion_file = os.path.join(motion_path, "test.npz")
 
     # train_motion_file = os.path.join(motion_path, "motor_edited_extend_amass_train_100Hz.npz")
     # test_motion_file = os.path.join(motion_path, "motor_edited_extend_amass_test_40_100Hz_full.npz")

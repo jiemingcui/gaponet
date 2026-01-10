@@ -1,0 +1,425 @@
+env:
+  viewer:
+    eye:
+    - 7.5
+    - 7.5
+    - 7.5
+    lookat:
+    - 0.0
+    - 0.0
+    - 0.0
+    cam_prim_path: /OmniverseKit_Persp
+    resolution:
+    - 1280
+    - 720
+    origin_type: world
+    env_index: 0
+    asset_name: null
+    body_name: null
+  sim:
+    physics_prim_path: /physicsScene
+    device: cuda:0
+    dt: 0.005
+    render_interval: 4
+    gravity:
+    - 0.0
+    - 0.0
+    - -9.81
+    enable_scene_query_support: false
+    use_fabric: true
+    physx:
+      solver_type: 1
+      min_position_iteration_count: 1
+      max_position_iteration_count: 255
+      min_velocity_iteration_count: 0
+      max_velocity_iteration_count: 255
+      enable_ccd: false
+      enable_stabilization: true
+      enable_enhanced_determinism: false
+      bounce_threshold_velocity: 0.5
+      friction_offset_threshold: 0.04
+      friction_correlation_distance: 0.025
+      gpu_max_rigid_contact_count: 8388608
+      gpu_max_rigid_patch_count: 163840
+      gpu_found_lost_pairs_capacity: 16777216
+      gpu_found_lost_aggregate_pairs_capacity: 33554432
+      gpu_total_aggregate_pairs_capacity: 16777216
+      gpu_collision_stack_size: 67108864
+      gpu_heap_capacity: 67108864
+      gpu_temp_buffer_capacity: 16777216
+      gpu_max_num_partitions: 8
+      gpu_max_soft_body_contacts: 1048576
+      gpu_max_particle_contacts: 1048576
+    physics_material:
+      func: isaaclab.sim.spawners.materials.physics_materials:spawn_rigid_body_material
+      static_friction: 0.5
+      dynamic_friction: 0.5
+      restitution: 0.0
+      improve_patch_friction: true
+      friction_combine_mode: average
+      restitution_combine_mode: average
+      compliant_contact_stiffness: 0.0
+      compliant_contact_damping: 0.0
+    render:
+      enable_translucency: false
+      enable_reflections: false
+      enable_global_illumination: false
+      antialiasing_mode: DLSS
+      enable_dlssg: false
+      enable_dl_denoiser: false
+      dlss_mode: 0
+      enable_direct_lighting: true
+      samples_per_pixel: 1
+      enable_shadows: true
+      enable_ambient_occlusion: false
+  ui_window_class_type: isaaclab.envs.ui.base_env_window:BaseEnvWindow
+  seed: null
+  decimation: 4
+  is_finite_horizon: false
+  episode_length_s: 1.0
+  scene:
+    num_envs: 4096
+    env_spacing: 10.0
+    lazy_sensor_update: true
+    replicate_physics: true
+    filter_collisions: true
+  events: null
+  observation_space: '{"type": "python", "space": "Box", "value": 0}'
+  num_observations: null
+  state_space: '{"type": "python", "space": "Box", "value": 0}'
+  num_states: null
+  observation_noise_model: null
+  action_space: '{"type": "python", "space": "Box", "value": 10}'
+  num_actions: null
+  action_noise_model: null
+  rerender_on_reset: false
+  wait_for_textures: true
+  robot_name: h1_2_with_hand_fix_payload
+  train_motion_file: /home/cjm/GAPONet/gaponet/source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/train.npz
+  robot:
+    class_type: isaaclab.assets.articulation.articulation:Articulation
+    prim_path: /World/envs/env_.*/Robot
+    spawn:
+      func: isaaclab.sim.spawners.from_files.from_files:spawn_from_usd
+      visible: true
+      semantic_tags: null
+      copy_from_source: true
+      mass_props: null
+      deformable_props: null
+      rigid_props:
+        rigid_body_enabled: null
+        kinematic_enabled: null
+        disable_gravity: false
+        linear_damping: 0.0
+        angular_damping: 0.0
+        max_linear_velocity: 1000.0
+        max_angular_velocity: 1000.0
+        max_depenetration_velocity: 1.0
+        max_contact_impulse: null
+        enable_gyroscopic_forces: null
+        retain_accelerations: false
+        solver_position_iteration_count: null
+        solver_velocity_iteration_count: null
+        sleep_threshold: null
+        stabilization_threshold: null
+      collision_props: null
+      activate_contact_sensors: true
+      scale: null
+      articulation_props:
+        articulation_enabled: null
+        enabled_self_collisions: true
+        solver_position_iteration_count: 4
+        solver_velocity_iteration_count: 4
+        sleep_threshold: null
+        stabilization_threshold: null
+        fix_root_link: true
+      fixed_tendons_props: null
+      joint_drive_props: null
+      visual_material_path: material
+      visual_material: null
+      usd_path: /home/cjm/GAPONet/gaponet/source/sim2real_assets/sim2real_assets/./usds/h1_2_hand_fix_payload_collision/h1_2_hand_fix_payload/h1_2_hand_fix_payload.usd
+      variants: null
+    init_state:
+      pos:
+      - 0.0
+      - 0.0
+      - 1.05
+      rot:
+      - 1.0
+      - 0.0
+      - 0.0
+      - 0.0
+      lin_vel:
+      - 0.0
+      - 0.0
+      - 0.0
+      ang_vel:
+      - 0.0
+      - 0.0
+      - 0.0
+      joint_pos:
+        .*_joint: 0.0
+      joint_vel:
+        .*_joint: 0.0
+    collision_group: 0
+    debug_vis: false
+    soft_joint_pos_limit_factor: 0.9
+    actuators:
+      legs:
+        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+        joint_names_expr:
+        - .*_hip_yaw_joint
+        - .*_hip_roll_joint
+        - .*_hip_pitch_joint
+        - .*_knee_joint
+        - torso_joint
+        effort_limit: null
+        velocity_limit: null
+        effort_limit_sim: 300
+        velocity_limit_sim: 100.0
+        stiffness:
+          .*_hip_yaw_joint: 150.0
+          .*_hip_roll_joint: 150.0
+          .*_hip_pitch_joint: 200.0
+          .*_knee_joint: 200.0
+          torso_joint: 200.0
+        damping:
+          .*_hip_yaw_joint: 5.0
+          .*_hip_roll_joint: 5.0
+          .*_hip_pitch_joint: 5.0
+          .*_knee_joint: 5.0
+          torso_joint: 5.0
+        armature: null
+        friction: null
+      feet:
+        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+        joint_names_expr:
+        - .*_ankle_pitch_joint
+        - .*_ankle_roll_joint
+        effort_limit: null
+        velocity_limit: null
+        effort_limit_sim: 100
+        velocity_limit_sim: 100.0
+        stiffness:
+          .*_ankle_pitch_joint: 20.0
+          .*_ankle_roll_joint: 20.0
+        damping:
+          .*_ankle_pitch_joint: 4.0
+          .*_ankle_roll_joint: 4.0
+        armature: null
+        friction: null
+      arms:
+        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+        joint_names_expr:
+        - .*_shoulder_pitch_joint
+        - .*_shoulder_roll_joint
+        - .*_shoulder_yaw_joint
+        - .*_elbow_joint
+        - .*_wrist_roll_joint
+        - .*_wrist_pitch_joint
+        - .*_wrist_yaw_joint
+        effort_limit: null
+        velocity_limit: null
+        effort_limit_sim: 30
+        velocity_limit_sim: 20
+        stiffness:
+          .*_shoulder_pitch_joint: 100.0
+          .*_shoulder_roll_joint: 100.0
+          .*_shoulder_yaw_joint: 100.0
+          .*_elbow_joint: 100.0
+          .*_wrist_roll_joint: 50.0
+          .*_wrist_pitch_joint: 50.0
+          .*_wrist_yaw_joint: 50.0
+        damping:
+          .*_shoulder_pitch_joint: 2.0
+          .*_shoulder_roll_joint: 2.0
+          .*_shoulder_yaw_joint: 2.0
+          .*_elbow_joint: 2.0
+          .*_wrist_roll_joint: 1.0
+          .*_wrist_pitch_joint: 1.0
+          .*_wrist_yaw_joint: 1.0
+        armature: null
+        friction: null
+  compute_eq_torque: false
+  urdf_model_path: /home/cjm/GAPONet/gaponet/source/sim2real_assets/sim2real_assets/urdfs/h1_2_hand_fix_payload/h1_2_hand_fix_payload.urdf
+  package_dirs: /home/cjm/GAPONet/gaponet/source/sim2real_assets/sim2real_assets/urdfs/h1_2_hand_fix_payload
+  urdf_joint_name:
+  - left_hip_yaw_joint
+  - left_hip_pitch_joint
+  - left_hip_roll_joint
+  - left_knee_joint
+  - left_ankle_pitch_joint
+  - left_ankle_roll_joint
+  - right_hip_yaw_joint
+  - right_hip_pitch_joint
+  - right_hip_roll_joint
+  - right_knee_joint
+  - right_ankle_pitch_joint
+  - right_ankle_roll_joint
+  - torso_joint
+  - left_shoulder_pitch_joint
+  - left_shoulder_roll_joint
+  - left_shoulder_yaw_joint
+  - left_elbow_joint
+  - left_wrist_roll_joint
+  - left_wrist_pitch_joint
+  - left_wrist_yaw_joint
+  - right_shoulder_pitch_joint
+  - right_shoulder_roll_joint
+  - right_shoulder_yaw_joint
+  - right_elbow_joint
+  - right_wrist_roll_joint
+  - right_wrist_pitch_joint
+  - right_wrist_yaw_joint
+  mode: train
+  early_termination: true
+  termination_height: 0.8
+  max_payload_mass: 3.0
+  robot_mass_range:
+  - 1.0
+  - 1.0
+  reference_body: torso_link
+  reset_strategy: random
+  motion_dir: /home/cjm/GAPONet/gaponet/source/sim2real/sim2real/tasks/humanoid_operator/motions
+  motion_joint: null
+  motion_path: /home/cjm/GAPONet/gaponet/source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof
+  test_motion_file: /home/cjm/GAPONet/gaponet/source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/motor_edited_extend_amass_test_merged_50Hz_full_real.npz
+  num_sensor_positions: 20
+  sensors_positions:
+  - left_shoulder_pitch_joint: 0.5
+    right_shoulder_pitch_joint: 0.5
+  - left_shoulder_yaw_joint: 0.5
+    right_shoulder_yaw_joint: 0.5
+  - left_shoulder_roll_joint: 0.5
+    right_shoulder_roll_joint: 0.5
+  - left_shoulder_pitch_joint: 0.5
+    right_shoulder_pitch_joint: 0.5
+    left_shoulder_yaw_joint: 0.5
+    right_shoulder_yaw_joint: 0.5
+    left_shoulder_roll_joint: 0.5
+    right_shoulder_roll_joint: 0.5
+  - left_elbow_joint: 0.5
+    right_elbow_joint: 0.5
+  - left_wrist_roll_joint: 0.5
+    right_wrist_roll_joint: 0.5
+  - left_wrist_pitch_joint: 0.5
+    right_wrist_pitch_joint: 0.5
+  - left_wrist_yaw_joint: 0.5
+    right_wrist_yaw_joint: 0.5
+  - left_shoulder_pitch_joint: -0.5
+    left_shoulder_roll_joint: -0.5
+  - left_shoulder_yaw_joint: -0.5
+    left_elbow_joint: 0.5
+  - left_shoulder_pitch_joint: -0.5
+    left_wrist_roll_joint: -0.5
+  - left_shoulder_yaw_joint: -0.5
+    left_wrist_pitch_joint: -0.5
+  - right_shoulder_pitch_joint: -0.5
+    right_shoulder_roll_joint: -0.5
+  - right_shoulder_yaw_joint: -0.5
+    right_elbow_joint: -0.5
+  - right_shoulder_pitch_joint: -0.5
+    right_wrist_roll_joint: -0.5
+  - right_shoulder_yaw_joint: -0.5
+    right_wrist_pitch_joint: -0.5
+  - left_shoulder_pitch_joint: -0.5
+    left_elbow_joint: 0.5
+    left_wrist_roll_joint: -0.5
+    right_shoulder_pitch_joint: -0.5
+    right_elbow_joint: 0.5
+    right_wrist_roll_joint: -0.5
+  - left_shoulder_pitch_joint: 0.5
+    left_elbow_joint: 0.5
+    left_wrist_roll_joint: 0.5
+    right_shoulder_pitch_joint: 0.5
+    right_elbow_joint: 0.5
+    right_wrist_roll_joint: 0.5
+  - left_shoulder_yaw_joint: -0.5
+    left_wrist_pitch_joint: -0.5
+    left_wrist_yaw_joint: -0.5
+    right_shoulder_yaw_joint: -0.5
+    right_wrist_pitch_joint: -0.5
+    right_wrist_yaw_joint: -0.5
+  - left_shoulder_yaw_joint: 0.5
+    left_wrist_pitch_joint: 0.5
+    left_wrist_yaw_joint: 0.5
+    right_shoulder_yaw_joint: 0.5
+    right_wrist_pitch_joint: 0.5
+    right_wrist_yaw_joint: 0.5
+  delta_sensor_position: true
+  delta_sensor_value: true
+  add_model_history: true
+  model_history_length: 4
+  model_initial_fill_length: 4
+  model_history_dim: 30
+  sensor_dim: 20
+  sensor_decimation: 1
+  add_noise: true
+  record_sim_mode: false
+agent:
+  seed: 42
+  device: cuda:0
+  num_steps_per_env: 32
+  max_iterations: 120
+  empirical_normalization: true
+  policy:
+    class_name: DeepONetActorCritic
+    branch_input_dims:
+    - 400
+    branch_hidden_dim: 256
+    trunk_input_dim: 10
+    trunk_hidden_dims:
+    - 128
+    - 128
+    - 128
+    activation: elu
+    critic_input_dim: 495
+    critic_hidden_dims:
+    - 256
+    - 128
+    - 128
+    model_input_dim: 130
+    model_output_dim: 400
+    model_hidden_dims:
+    - 128
+    - 128
+    model_history_length: 4
+    model_history_dim: 30
+    model_pretrained_path: ''
+  algorithm:
+    class_name: PPO
+    value_loss_coef: 1.0
+    use_clipped_value_loss: true
+    clip_param: 0.2
+    entropy_coef: 0.0
+    num_learning_epochs: 5
+    num_mini_batches: 4
+    learning_rate: 0.0001
+    schedule: adaptive
+    gamma: 0.99
+    lam: 0.95
+    desired_kl: 0.008
+    max_grad_norm: 1.0
+  save_interval: 50
+  experiment_name: humanoid_operator
+  run_name: ''
+  logger: wandb
+  neptune_project: isaaclab
+  wandb_project: humanoid-deeponet-direct
+  resume: false
+  load_run: .*
+  load_checkpoint: model_.*.pt
+  class_name: OperatorRunner
+  num_steps_function: 1
+  replay_buffer_size: 40
+  direct_sample_envs: true
+  full_trajectory_sampling: true
+  model_based_sensor: true
+  model_replay_buffer_size: 50
+  model_learning_epochs: 300
+  model_learning_steps: 1
+  model_learning_interval: 1000
+  model_sample_iterations: 10
+  retrain_sensor_only: false
+  randomize_dynamics: true
+  eval_after_training: false
