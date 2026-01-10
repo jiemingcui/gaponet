@@ -34,8 +34,6 @@ Before installation, download the required assets:
 
 2. **Test Data**: A [test data](https://drive.google.com/file/d/12h3iOTuttKmxflI-SP5UEpgINQq06mKp/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data.
 
-3. **Test Model**: [test model]() (link to be added)
-
 ## Installation
 
 Use the setup script to automatically create the conda environment and install all dependencies:
