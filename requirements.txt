@@ -1,0 +1,33 @@
+# GapONet: Sim-to-Real Humanoid Robot Control - Python Dependencies
+# 
+# Note: Isaac Lab and related packages (isaaclab, isaaclab_assets, isaaclab_rl, etc.)
+# are installed through Isaac Lab's installation process and should not be installed via pip.
+#
+# Prerequisites:
+# - Isaac Sim 4.5.0+ (installed separately)
+# - Isaac Lab (installed separately, see Isaac Lab documentation)
+# - CUDA-capable GPU with appropriate drivers
+
+# Core dependencies
+torch>=2.0.0
+numpy>=1.21.0
+gymnasium>=0.28.0
+
+# Robotics and physics libraries
+pinocchio>=2.6.0
+pytorch-kinematics>=0.0.1
+
+# Utility libraries
+psutil>=5.9.0
+toml>=0.10.2
+
+# Optional: Logging and visualization
+# Uncomment the ones you need:
+# wandb>=0.15.0          # For wandb logging (default logger)
+# tensorboard>=2.13.0    # For tensorboard logging
+# matplotlib>=3.5.0      # For plotting evaluation results (used in plot_play module)
+
+# Note: rsl_rl is typically installed as part of Isaac Lab's rl dependencies
+# If you need to install it separately, uncomment the line below:
+# rsl-rl @ git+https://github.com/leggedrobotics/rsl_rl.git
+

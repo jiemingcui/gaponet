@@ -25,9 +25,9 @@ class ActorCriticTransformer(ActorCritic):
         
         actor_hidden_dims=[128, 512],          # d_model, dim_feedforward
         critic_hidden_dims=[128, 512],         # d_model, dim_feedforward
-        nhead=4,                               # 新增参数
-        num_layers=2,                          # 新增参数
-        activation="gelu",                     # 推荐激活
+        nhead=4,                               # Number of attention heads
+        num_layers=2,                          # Number of transformer layers
+        activation="gelu",                     # Recommended activation function
         
         init_noise_std=1.0,
         noise_std_type: str = "scalar",
