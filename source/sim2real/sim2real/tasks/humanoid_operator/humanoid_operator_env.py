@@ -653,17 +653,6 @@ class HumanoidOperatorEnv(DirectRLEnv):
             combined_lines.append("")
 
         print("######################################################################")
-        print_table("Policy MPJAE (deg) by Mass", policy_bins)
-        append_section_csv("Policy MPJAE (deg) by Mass", policy_bins)
-        if sim_bins is not None:
-            print_table("Sim MPJAE (deg) by Mass", sim_bins)
-            append_section_csv("Sim MPJAE (deg) by Mass", sim_bins)
-        print_table("Policy EEF error norm (m) by Mass", eff_bins)
-        append_section_csv("Policy EEF error norm (m) by Mass", eff_bins)
-        if eff_bins_sim is not None:
-            print_table("Sim EEF error norm (m) by Mass", eff_bins_sim)
-            append_section_csv("Sim EEF error norm (m) by Mass", eff_bins_sim)
-        
         # New gap metrics tables and CSV sections
         print_table("Large Gap Ratio (>=0.5 rad) by Mass", large_gap_ratio_bins)
         append_section_csv("Large Gap Ratio (>=0.5 rad) by Mass", large_gap_ratio_bins)
@@ -671,10 +660,6 @@ class HumanoidOperatorEnv(DirectRLEnv):
         append_section_csv("Gap IQR (rad) by Mass", gap_iqr_bins)
         print_table("Gap Range (rad) by Mass", gap_range_bins)
         append_section_csv("Gap Range (rad) by Mass", gap_range_bins)
-        print_table("Upper Body Joint Area (rad·s) by Mass", upper_body_area_bins)
-        append_section_csv("Upper Body Joint Area (rad·s) by Mass", upper_body_area_bins)
-        print_per_joint_table("Per-Joint Upper Body Area (rad·s) by Mass", per_joint_upper_body_area_bins)
-        append_per_joint_csv("Per-Joint Upper Body Area (rad·s) by Mass", per_joint_upper_body_area_bins)
         print("######################################################################")
 
         # write combined CSV once
@@ -847,7 +832,7 @@ class HumanoidOperatorEnv(DirectRLEnv):
         ], dim=1)
         trunk_obs = torch.cat([
             current_action,
-            payload,
+            # payload,
             # self.robot.data.joint_pos[:, self._motion_loader.joint_sequence_index],
         ], dim=1)
         critic_obs = torch.cat([
