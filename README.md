@@ -58,12 +58,42 @@ python scripts/rsl_rl/train.py --task Isaac-Humanoid-Operator-Delta-Action \
 
 ### Evaluation/Playback
 
-Evaluate a trained model:
+1. Evaluate a trained model:
 
 ```bash
 python scripts/rsl_rl/play.py --task Isaac-Humanoid-Operator-Delta-Action  \
    --model ./model/model_17950.pt --num_envs 20 --headless
 ```
+
+2. **Export checkpoint to JIT format** (for lightweight inference without Isaac Sim):
+
+```bash
+python scripts/rsl_rl/inference_jit.py \
+    --export \
+    --checkpoint ./model/model_17950.pt \
+    --task Isaac-Humanoid-Operator-Delta-Action \
+    --output ./model/policy.pt \
+    --device cuda:0 \
+    --num_envs 20
+```
+
+   This script exports a trained checkpoint to JIT/TorchScript format. The exported model can be used for inference without requiring Isaac Sim. Note: This step requires Isaac Sim to be initialized for the export process.
+
+3. **Run lightweight inference and evaluation** (no Isaac Sim required):
+
+```bash
+python scripts/rsl_rl/deploy.py \
+    --model ./model/policy.pt \
+    --test_data ./source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/test.npz \
+```
+
+   This script performs inference on test data and computes evaluation metrics:
+   - **Large Gap Ratio**: Ratio of joint position errors >= 0.5 rad
+   - **Gap IQR**: Interquartile range of joint position errors
+   - **Gap Range**: Range (max - min) of joint position errors
+   
+   Results are grouped by payload mass and displayed in tables. This script does not require Isaac Sim and can be run on any machine with PyTorch.
+
 
 ## Adding a New Robot
 
