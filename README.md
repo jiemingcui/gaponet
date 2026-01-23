@@ -17,7 +17,7 @@ GapONet implements a comprehensive training and evaluation framework for humanoi
 
 Before installation, download the required assets:
 
-1. **Robot Assets**: Download [sim2real_assets](https://drive.google.com/drive/folders/1Us5FTDRO_whoxDDO_Nqa8KmbWCFDNyVX?usp=sharing) and place the corresponding files in `gaponet/source/sim2real_assets/`.
+1. **Robot Assets**: Download [sim2real_assets](https://drive.google.com/drive/folders/1Us5FTDRO_whoxDDO_Nqa8KmbWCFDNyVX?usp=sharing) and place the corresponding files in `gaponet/source/sim2real_assets/sim2real_assets/`.
 
 2. **Test Data**: A [test data](https://drive.google.com/file/d/1QwpnqICmRudUBFrtv7UdlgXQ8lSF0JOv/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data. Place the corresponding files in `gaponet/source/sim2real/sim2real/motions/motion_amass/edited_27dof/`.
 
