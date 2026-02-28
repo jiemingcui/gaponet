@@ -61,7 +61,8 @@ conda install -c conda-forge -y \
     matplotlib \
     ipython \
     jupyter \
-    importlib_metadata
+    importlib_metadata \
+    pinocchio>=2.6.0
 
 # Install PyTorch (with CUDA support if available)
 echo -e "${GREEN}[INFO] Installing PyTorch...${NC}"

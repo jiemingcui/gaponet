@@ -1,3 +1,11 @@
+## 手动添加
+apps/
+logs/
+outputs/
+model/
+wandb/
+
+
 # Python
 __pycache__/
 *.py[cod]
@@ -49,9 +57,43 @@ wandb/
 
 # Isaac Lab
 _isaac_sim/
+apps/
+outputs/
+
+# Hydra logs
+.hydra/
 
 # Synced scripts (optional, can be regenerated)
-scripts/rsl_rl/
+
+
+# Training outputs
+checkpoints/
+*.log
+mlruns/
+
+# Data files
+data/
+datasets/
+*.hdf5
+*.h5
+
+# Model files
+*.onnx
+*.mlpackage
+model/
+*.pt
+
+# Temp files
+*.tmp
+*.bak
+*.cache
+
+# Isaac Lab
+*.kit
+*.usd
+*..usda
+*.usdc
+*.usdz
 
 # OS
 .DS_Store
