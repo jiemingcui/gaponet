@@ -1,0 +1,116 @@
+
+================================================================================
+NPZ 数据结构 vs 配置文件维度 对比报告
+================================================================================
+
+【1. NPZ 文件数据概览】
+----------------------------------------
+
+  real_dof_positions:
+    形状: (432,)
+    数据类型: object
+
+  real_dof_positions_cmd:
+    形状: (432,)
+    数据类型: object
+
+  real_dof_velocities:
+    形状: (432,)
+    数据类型: object
+
+  real_dof_torques:
+    形状: (432,)
+    数据类型: object
+
+  joint_sequence:
+    形状: (10,)
+    数据类型: object
+
+  payloads:
+    形状: (432,)
+    数据类型: int64
+
+【2. 运动数据维度分析】
+----------------------------------------
+
+  real_dof_positions:
+    样本数量: 432
+    DOF 数量: 0
+
+  real_dof_positions_cmd:
+    样本数量: 432
+    DOF 数量: 0
+
+  real_dof_velocities:
+    样本数量: 432
+    DOF 数量: 0
+
+  real_dof_torques:
+    样本数量: 432
+    DOF 数量: 0
+
+【3. 关节序列分析】
+----------------------------------------
+  关节数量: 10
+  关节列表:
+    [0] left_shoulder_pitch_joint
+    [1] left_shoulder_roll_joint
+    [2] left_shoulder_yaw_joint
+    [3] left_elbow_pitch_joint
+    [4] left_wrist_pitch_joint
+    [5] right_shoulder_pitch_joint
+    [6] right_shoulder_roll_joint
+    [7] right_shoulder_yaw_joint
+    [8] right_elbow_pitch_joint
+    [9] right_wrist_pitch_joint
+
+【4. 负载信息】
+----------------------------------------
+  唯一负载值: [0, 1, 2, 3]
+  负载分布: {0: 108, 1: 108, 2: 108, 3: 108}
+
+【5. 配置文件维度假设】
+----------------------------------------
+
+  5.1 rsl_rl_operator_cfg.py (DeepONetActorCriticCfg):
+    branch_input_dims: [20 * 62] = 1240
+    trunk_input_dim: 32 (current_action 31 + payload 1)
+    critic_input_dim: 1463
+    model_input_dim: 31 + 93*4 = 403
+    model_output_dim: 20 * 62 = 1240
+    model_history_length: 4
+    model_history_dim: 93
+
+  5.2 humanoid_operator_env_cfg_fourior.py:
+    action_space: 1 * 31 = 31 (所有 31 个关节都使用 delta action)
+    num_sensor_positions: 20
+    sensor_dim: 62 (joint_pos 31 + joint_vel*dt 31)
+    model_history_length: 4
+    model_history_dim: 93 (joint_pos 31 + joint_vel 31 + joint_target 31)
+    delta_sensor_position: True
+    delta_sensor_value: True
+
+【6. 维度验证结果】
+----------------------------------------
+
+  ✗ 不匹配的维度:
+    DOF 数量: NPZ=0, 配置期望=31 ✗
+
+  传感器配置:
+    每位置维度: 62 维/位置
+    位置数量: 20 个位置
+    预期分支输入: 1240 = 20 × 62
+
+  模型历史配置:
+    历史维度: 93 维
+    历史长度: 4 步
+    预期模型输入: 403 = 31 + 93 × 4
+
+【7. 总结】
+----------------------------------------
+  匹配项: 0
+  不匹配项: 1
+
+  ✗ 存在维度不匹配，请检查配置文件
+
+================================================================================
