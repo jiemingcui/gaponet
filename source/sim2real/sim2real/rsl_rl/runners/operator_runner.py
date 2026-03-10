@@ -445,6 +445,7 @@ class OperatorRunner(OnPolicyRunner):
 
         # -- Episode info
         ep_string = ""
+        per_joint_rewards_for_csv = {}  # Collect per-joint rewards for CSV writing
         if locs["ep_infos"]:
             for key in locs["ep_infos"][0]:
                 infotensor = torch.tensor([], device=self.device)
@@ -462,9 +463,31 @@ class OperatorRunner(OnPolicyRunner):
                 if "/" in key:
                     self.writer.add_scalar(key, value, locs["it"])
                     ep_string += f"""{f'{key}:':>{pad}} {value:.4f}\n"""
+                    # Collect per-joint rewards for CSV writing
+                    if key.startswith("reward_per_joint/"):
+                        joint_name = key.replace("reward_per_joint/", "")
+                        per_joint_rewards_for_csv[joint_name] = value.item()
                 else:
                     self.writer.add_scalar("Episode/" + key, value, locs["it"])
                     ep_string += f"""{f'Mean episode {key}:':>{pad}} {value:.4f}\n"""
+        
+        # Write per-joint rewards to CSV when they are logged to terminal (sync with terminal output)
+        if len(per_joint_rewards_for_csv) > 0 and hasattr(self.env, 'per_joint_reward_csv_writer') and self.env.per_joint_reward_csv_writer is not None:
+            import csv
+            joint_names = self.env._motion_loader.joint_sequence
+            # Get average payload mass (use mean across all envs as approximation)
+            avg_payload_mass = self.env.wrist_payload_mass.mean().item() if hasattr(self.env, 'wrist_payload_mass') else 0.0
+            
+            # Prepare row: iteration, env_id (-1 for batch average), payload_mass, joint rewards
+            row = [
+                locs["it"],  # Use iteration number
+                -1,  # -1 indicates this is a batch average across all episodes in this iteration
+                f"{avg_payload_mass:.6f}"
+            ] + [f"{per_joint_rewards_for_csv.get(joint_name, 0.0):.6f}" for joint_name in joint_names]
+            
+            self.env.per_joint_reward_csv_writer.writerow(row)
+            self.env.per_joint_reward_episode_count += 1
+            self.env.per_joint_reward_csv_file.flush()
 
         mean_std = self.alg.policy.action_std.mean()
         fps = int(collection_size / (locs["collection_time"] + locs["learn_time"]))

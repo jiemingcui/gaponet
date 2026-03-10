@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def plot_joint_positions(data, save_path, motion_frequency, motion_num, joint_sequence):
     """
-    data:  shape: (time_length, num_envs==1, num_data_type, 10)
+    data:  shape: (time_length, num_envs==1, num_data_type, num_joints)
     """
 
     has_sim_dof_positions = False
@@ -19,11 +19,13 @@ def plot_joint_positions(data, save_path, motion_frequency, motion_num, joint_se
         real_dof_positions = data[:, 0, 3][2: ]    # shape: (time_length, 10)
         has_sim_dof_positions = True
 
+    # For historical reasons the layout是 3x5=15 個子圖，如果關節數 > 15，就只畫前 15 個
     fig, axs = plt.subplots(3, 5, figsize=(60, 24))  # 3 rows, 5 columns, 15 subplots total
     axs = axs.flatten()  # flatten for 1D indexing
 
     steps = range(0, robot_dof_positions.shape[0])
-    for i in range(len(joint_sequence)):
+    num_plots = min(len(joint_sequence), robot_dof_positions.shape[1], len(axs))
+    for i in range(num_plots):
         axs[i].plot(steps, robot_dof_positions[:, i], label='delta action dof positions')
         axs[i].plot(steps, real_dof_positions[:, i], label='real dof positions')
         axs[i].plot(steps, dof_target_pos[:, i], label='target dof positions')
