@@ -1,0 +1,6 @@
+{
+  "task":       "Isaac-Humanoid-Operator-Delta-Action",
+  "checkpoint": "./model/model_17950.pt",
+  "num_envs":   20,
+  "headless":   true
+}

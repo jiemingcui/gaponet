@@ -1,0 +1,7 @@
+{
+  "task":         "Isaac-Humanoid-Operator-Delta-Action",
+  "checkpoint":   "./model/model_17950.pt",
+  "output_model": "./model/policy.pt",
+  "device":       "cuda:0",
+  "num_envs":     20
+}

@@ -1,0 +1,4 @@
+{
+  "test_data": "./source/sim2real/sim2real/motions/motion_amass/edited_27dof/test.npz",
+  "model":     "./model/policy.pt"
+}

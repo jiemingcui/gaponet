@@ -1,0 +1,11 @@
+{
+  "task":            "Isaac-Humanoid-Operator-Delta-Action",
+  "num_envs":        4080,
+  "max_iterations":  100000,
+  "experiment_name": "GapONet",
+  "run_name":        "default_run",
+  "letter":          "amass",
+  "device":          "cuda",
+  "headless":        true,
+  "extra_args":      []
+}
