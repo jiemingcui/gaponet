@@ -28,8 +28,10 @@ Before installation, download the required assets:
 Use the setup script to automatically create the conda environment and install all dependencies:
 
 ```bash
-# Clone the repository
-git clone git@github.com:jiemingcui/gaponet.git
+# Clone the repository — HTTPS (recommended for agents / CI / unattended setups)
+git clone https://github.com/jiemingcui/gaponet.git
+# Or SSH (for developers with key access):
+# git clone git@github.com:jiemingcui/gaponet.git
 cd gaponet
 
 # Run the setup script (creates 'gapo' environment by default)
@@ -214,6 +216,57 @@ The framework computes several metrics during evaluation:
 - **EEF Error**: End-effector position error
 
 Results are saved as CSV files and visualization plots.
+
+## Agent-Friendly Usage
+
+For autonomous coding agents, CI systems, or external harnesses, GapONet
+exposes a deterministic CLI with a stable artifact contract. Full schema,
+exit codes, and failure-mode reference are in
+[`README_AGENT.md`](README_AGENT.md); a detailed write-up of what changed and
+why is in [`AGENT_FRIENDLY_REPORT.md`](AGENT_FRIENDLY_REPORT.md).
+
+**1. Validate the environment first:**
+
+```bash
+python check_env.py            # writes env_check_result.json
+```
+
+**2. Run any mode through the unified wrapper:**
+
+```bash
+# Train (requires Isaac Sim)
+python scripts/run_gaponet_job.py --mode train \
+  --config configs/train_default.json --output-dir ./runs/exp1
+
+# Eval (requires Isaac Sim)
+python scripts/run_gaponet_job.py --mode eval \
+  --checkpoint ./model/model_17950.pt --output-dir ./runs/exp1
+
+# Export checkpoint → JIT
+python scripts/run_gaponet_job.py --mode export \
+  --checkpoint ./model/model_17950.pt --output-dir ./runs/exp1
+
+# Deploy / lightweight inference (no Isaac Sim needed)
+python scripts/run_gaponet_job.py --mode deploy \
+  --checkpoint ./model/policy.pt \
+  --input-data ./source/sim2real/sim2real/motions/motion_amass/edited_27dof/test.npz \
+  --output-dir ./runs/exp1
+```
+
+**3. Or hand the wrapper a single JSON input package:**
+
+```bash
+python scripts/run_gaponet_job.py \
+  --input-package input_package_example.json \
+  --output-dir ./runs/exp1
+```
+
+Every run writes `run_manifest.json` (always), plus mode-specific files
+(`eval_metrics.json`, `training_metrics.json`, `model_manifest.json`,
+`per_joint_gap.csv`) and `stdout.log` / `stderr.log` into `--output-dir`.
+
+The patched `scripts/rsl_rl/deploy.py` also accepts `--output-dir` directly
+for the same artifact contract; without it, behavior is unchanged.
 
 ## Acknowledgments
 

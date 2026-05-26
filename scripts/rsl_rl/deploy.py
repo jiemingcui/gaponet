@@ -24,10 +24,22 @@ Usage:
 
 import argparse
 import os
+import sys
+from pathlib import Path
+
 import numpy as np
 import torch
 from tqdm import tqdm
 from typing import Dict, List, Tuple, Optional
+
+_SCRIPTS_DIR = Path(__file__).resolve().parent.parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+try:
+    from output_writer import GapONetOutputWriter
+    _HAS_OUTPUT_WRITER = True
+except ImportError:
+    _HAS_OUTPUT_WRITER = False
 
 
 def load_jit_model(jit_path: str, device: str = "cuda:0"):
@@ -479,7 +491,11 @@ Examples:
                        help="Model history dimension (default: 30)")
     parser.add_argument("--step_dt", type=float, default=0.01,
                        help="Time step in seconds (default: 0.01)")
-    
+    parser.add_argument("--output-dir", type=str, default=None,
+                       help="Directory for machine-readable artifacts "
+                            "(eval_metrics.json, per_joint_gap.csv, run_manifest.json). "
+                            "If unset, no artifacts are written.")
+
     args = parser.parse_args()
     
     # Validate inputs
@@ -500,14 +516,53 @@ Examples:
             model_history_length=args.model_history_length, model_history_dim=args.model_history_dim,
             step_dt=args.step_dt
         )
-        
+
         print("[INFO] Evaluation completed successfully.")
-        
+
+        if args.output_dir and _HAS_OUTPUT_WRITER:
+            _write_machine_readable_artifacts(args, metrics)
+
     except Exception as e:
         print(f"[ERROR] Evaluation failed: {e}")
         import traceback
         traceback.print_exc()
         raise
+
+
+def _write_machine_readable_artifacts(args, metrics: Dict):
+    """Emit eval_metrics.json, per_joint_gap.csv, run_manifest.json under --output-dir."""
+    mass_levels = metrics.get("mass_levels", [])
+    large_gap_ratio_bins = metrics.get("large_gap_ratio_bins", {})
+    gap_iqr_bins = metrics.get("gap_iqr_bins", {})
+    gap_range_bins = metrics.get("gap_range_bins", {})
+
+    def _agg(bins):
+        flat = [v for vals in bins.values() for v in vals]
+        return float(np.mean(flat)) if flat else None
+
+    per_payload = {}
+    for m in mass_levels:
+        per_payload[f"{m:.3f}"] = {
+            "large_gap_ratio": float(np.mean(large_gap_ratio_bins[m])) if large_gap_ratio_bins[m] else None,
+            "gap_iqr":         float(np.mean(gap_iqr_bins[m]))         if gap_iqr_bins[m]         else None,
+            "gap_range":       float(np.mean(gap_range_bins[m]))       if gap_range_bins[m]       else None,
+            "num_motions":     len(large_gap_ratio_bins[m]),
+        }
+
+    writer = GapONetOutputWriter(output_dir=args.output_dir, mode="deploy")
+    writer.write_eval_metrics({
+        "large_gap_ratio": _agg(large_gap_ratio_bins),
+        "gap_iqr":         _agg(gap_iqr_bins),
+        "gap_range":       _agg(gap_range_bins),
+        "threshold_rad":   0.5,
+        "per_payload":     per_payload,
+        "test_data":       str(args.test_data),
+        "model":           str(args.model),
+    })
+    writer.finalize(status="success", extra={
+        "test_data": str(args.test_data),
+        "model":     str(args.model),
+    })
 
 
 if __name__ == "__main__":
