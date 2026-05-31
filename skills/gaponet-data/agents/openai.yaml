@@ -1,0 +1,4 @@
+interface:
+  display_name: "GapONet Data"
+  short_description: "Prepare GapONet motion data"
+  default_prompt: "Use $gaponet-data to process and validate my GapONet motion data."

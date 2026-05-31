@@ -1,0 +1,8 @@
+{
+  "output_data": "./source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/test.npz",
+  "output_dir": "./runs/data",
+  "profile": "operator",
+  "mode": "validate-only",
+  "force": false,
+  "update_configs": true
+}

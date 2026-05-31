@@ -1,0 +1,4 @@
+interface:
+  display_name: "GapONet Train"
+  short_description: "Train GapONet humanoid policies"
+  default_prompt: "Use $gaponet-train to train a GapONet policy from prepared motion data."

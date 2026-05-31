@@ -1,7 +1,7 @@
 {
   "mode": "deploy",
   "config": {
-    "test_data": "./source/sim2real/sim2real/motions/motion_amass/edited_27dof/test.npz",
+    "test_data": "./source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/test.npz",
     "model":     "./model/policy.pt",
     "task":      "Isaac-Humanoid-Operator-Delta-Action"
   }

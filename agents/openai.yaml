@@ -1,0 +1,4 @@
+interface:
+  display_name: "GapONet"
+  short_description: "Run GapONet robotics workflows"
+  default_prompt: "Use $gaponet to validate, run, or modify a GapONet humanoid robotics workflow."

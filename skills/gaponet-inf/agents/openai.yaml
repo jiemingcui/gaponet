@@ -1,0 +1,4 @@
+interface:
+  display_name: "GapONet Inf"
+  short_description: "Export and run GapONet inference"
+  default_prompt: "Use $gaponet-inf to export or run inference for a GapONet policy."

@@ -19,7 +19,7 @@ Before installation, download the required assets:
 
 1. **Robot Assets**: Download [sim2real_assets](https://drive.google.com/drive/folders/1Us5FTDRO_whoxDDO_Nqa8KmbWCFDNyVX?usp=sharing) and place the corresponding files in `gaponet/source/sim2real_assets/sim2real_assets/`.
 
-2. **Test Data**: A [test data](https://drive.google.com/file/d/1QwpnqICmRudUBFrtv7UdlgXQ8lSF0JOv/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data. Place the corresponding files in `gaponet/source/sim2real/sim2real/motions/motion_amass/edited_27dof/`.
+2. **Test Data**: A [test data](https://drive.google.com/file/d/1QwpnqICmRudUBFrtv7UdlgXQ8lSF0JOv/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data. Place the corresponding files in `gaponet/source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/`.
 
 3. **Checkpoint**: A [checkpoint](https://drive.google.com/file/d/1K2M8LCW4zMIQ1KqszSgusRzXoznI5qMo/view?usp=sharing) sample is provided. Please refer to this template for the format of test and training data. Place the corresponding files in `gaponet/model/`.
 
@@ -220,10 +220,21 @@ Results are saved as CSV files and visualization plots.
 ## Agent-Friendly Usage
 
 For autonomous coding agents, CI systems, or external harnesses, GapONet
-exposes a deterministic CLI with a stable artifact contract. Full schema,
-exit codes, and failure-mode reference are in
-[`README_AGENT.md`](README_AGENT.md); a detailed write-up of what changed and
-why is in [`AGENT_FRIENDLY_REPORT.md`](AGENT_FRIENDLY_REPORT.md).
+exposes a deterministic CLI with a stable artifact contract. The contract is
+implemented in `scripts/run_gaponet_job.py`, `scripts/output_writer.py`, and
+`check_env.py`.
+
+### Codex Skills
+
+This repository also ships three Codex workflow skills under `skills/`:
+
+- `skills/gaponet-data`: validate and stage GapONet motion `.npz` data.
+- `skills/gaponet-train`: run environment checks and launch training.
+- `skills/gaponet-inf`: export checkpoints and run lightweight inference/evaluation.
+
+Install or reference these skill directories from the repo when using Codex.
+They are kept in the repository for open-source distribution and do not need to
+be copied into a personal skills directory to be versioned.
 
 **1. Validate the environment first:**
 
@@ -249,7 +260,7 @@ python scripts/run_gaponet_job.py --mode export \
 # Deploy / lightweight inference (no Isaac Sim needed)
 python scripts/run_gaponet_job.py --mode deploy \
   --checkpoint ./model/policy.pt \
-  --input-data ./source/sim2real/sim2real/motions/motion_amass/edited_27dof/test.npz \
+  --input-data ./source/sim2real/sim2real/tasks/humanoid_operator/motions/motion_amass/edited_27dof/test.npz \
   --output-dir ./runs/exp1
 ```
 
