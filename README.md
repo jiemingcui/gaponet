@@ -1,8 +1,8 @@
 # GapONet: Factorized Operators for Payload-Dependent Sim-to-Real Alignment
 
-**Jieming Cui<sup>†</sup>, Zhenghao Qi<sup>†</sup>, Yutang Lin<sup>†</sup>, Tengyu Liu, Yuntian Hu, Bin He, Ruihua Zhang<sup>*</sup>, Siyuan Huang<sup>*</sup>, and Yixin Zhu<sup>*</sup>**
+**Jieming Cui<sup>†</sup>, Zhenghao Qi<sup>†</sup>, Yutang Lin<sup>†</sup>, Tengyu Liu, Yuntian Hu, Bin He, Ruihua Zhang<sup>*</sup>**, Siyuan Huang*, and Yixin Zhu<sup>*</sup>
 
-<sup>†</sup> Equal contribution (co-first authors) · <sup>*</sup> Corresponding authors
+<sup>†</sup> Equal contribution <sup>*</sup> Corresponding authors
 
 
 A reinforcement learning framework for training humanoid robot controllers using Isaac Lab, featuring DeepONet, Transformer, and MLP architectures for sim-to-real transfer.
